@@ -1,4 +1,4 @@
-from Qoala.settings import *
+from qoala.settings import *
 import dj_database_url
 
 DATABASES['default'] = dj_database_url.config()
@@ -9,4 +9,4 @@ ALLOWED_HOSTS = ['*']
 
 DEBUG = False
 
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

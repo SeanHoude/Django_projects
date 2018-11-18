@@ -1,1 +1,1 @@
-web: waitress-serve --port=$PORT Qoala.wsgi:application
+web: waitress-serve --port=$PORT qoala.wsgi:application
