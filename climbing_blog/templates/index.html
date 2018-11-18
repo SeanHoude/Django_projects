@@ -5,8 +5,9 @@ Homepage - {{ block.super }}
 {% endblock title %}
 {% block content %}
     {% for article in articles %}
-    <h2>{{ article.title }}</h2>
-    <p>{{ article.content }}</p>
+        <h2><a href="{% url 'article_detail' slug=article.slug %}">
+            {{ article.title }}</a></h2>
+        <p>{{ article.content }}</p>
     {% endfor %}
-    <img src="{% static 'images/pilot-mtn.jpg' %}" alt="">
+    <img src="{% static 'images/pilot-mtn.jpg' %}" alt="Sean Houde climbing in the amphitheatre at Pilot Mountain 2011">
 {% endblock content %}

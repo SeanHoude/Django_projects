@@ -14,13 +14,37 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import TemplateView
 from climbing_blog import views
+from climbing_blog.backends import MyRegistrationView
+from django.contrib.auth.views import (
+    PasswordResetView,
+    PasswordResetDoneView,
+    PasswordResetConfirmView,
+    PasswordResetCompleteView,
+)
 
 urlpatterns = [
     path('about/', TemplateView.as_view(template_name='about.html'), name='about'),
     path('contact/', TemplateView.as_view(template_name='contact.html'), name='contact'),
+    path('articles/<slug>/', views.article_detail, name='article_detail'),
+    path('articles/<slug>/edit', views.edit_article, name='edit_article'),
     path('', views.index, name='home'),
+    path('accounts/password/reset/',
+         PasswordResetView.as_view(template_name='registration/password_reset_form.html'),
+         name="password_reset"),
+    path('accounts/password/reset/done/', PasswordResetDoneView.as_view
+         (template_name='registration/password_reset_done.html'), name="password_reset_done"),
+    path('accounts/password/reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view
+         (template_name='registration/password_reset_confirm.html'), name="password_reset_confirm"),
+    path('accounts/password/done/', PasswordResetCompleteView.as_view
+         (template_name='registration/password_reset_complete.html'),
+         name="password_reset_complete"),
+    path('accounts/register/', MyRegistrationView.as_view(),
+         name='registration_register'),
+    path('accounts/create_article/', views.create_article,
+         name='registration_create_article'),
+    path('accounts/', include('registration.backends.simple.urls')),
     path('admin/', admin.site.urls),
 ]
