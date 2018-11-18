@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 from climbing_blog import views
 from climbing_blog.backends import MyRegistrationView
 from django.contrib.auth.views import (
@@ -28,6 +28,7 @@ from django.contrib.auth.views import (
 urlpatterns = [
     path('about/', TemplateView.as_view(template_name='about.html'), name='about'),
     path('contact/', TemplateView.as_view(template_name='contact.html'), name='contact'),
+    path('articles', RedirectView.as_view(pattern_name='browse', permanent=True)),
     path('articles/<slug>/', views.article_detail, name='article_detail'),
     path('articles/<slug>/edit', views.edit_article, name='edit_article'),
     path('', views.index, name='home'),
@@ -45,6 +46,9 @@ urlpatterns = [
          name='registration_register'),
     path('accounts/create_article/', views.create_article,
          name='registration_create_article'),
+    path('browse/', RedirectView.as_view(pattern_name='browse', permanent=True)),
+    path('browse/title/', views.browse_by_title, name='browse'),
+    path('browse/title/<initial>/', views.browse_by_title, name='browse_by_title'),
     path('accounts/', include('registration.backends.simple.urls')),
     path('admin/', admin.site.urls),
 ]

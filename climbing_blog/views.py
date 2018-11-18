@@ -59,3 +59,14 @@ def create_article(request):
     return render(request, 'articles/create_article.html', {
         'form': form,
     })
+
+def browse_by_title(request, initial=None):
+    if initial:
+        articles = Article.objects.filter(title__istartswith=initial).order_by('title')
+    else:
+        articles = Article.objects.all().order_by('title')
+    
+    return render(request, 'search/search.html', {
+        'articles': articles,
+        'initial': initial,
+    })
